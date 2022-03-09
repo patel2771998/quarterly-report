@@ -26,6 +26,7 @@ import { Search as SearchIcon } from '../icons/search';
 //import "react-table/react-table.css";
 import withFixedColumns from 'react-table-hoc-fixed-columns';
 import 'react-table-hoc-fixed-columns/lib/styles.css' // important: this line must be placed after react-table css import
+import { left } from '@popperjs/core';
 
 
 
@@ -36,7 +37,7 @@ const Pattern = (props) => {
     {
       name: 'Date',
       selector: row => row.date,
-      fixed: true,
+      width:'100px'
     },
     // {
     //   name: 'Currency',
@@ -45,42 +46,51 @@ const Pattern = (props) => {
     {
       name: 'GlossProfit',
       selector: row => row.grossProfit,
+      width:'120px'
     },
     {
       name: 'totalRevenue',
       selector: row => row.totalRevenue,
+      width:'125px'
     },
     {
       name: 'costOfRevenue',
       selector: row => row.costOfRevenue,
+      width:'125px'
     },
     {
       name: 'costofGoodsAndServicesSold',
       selector: row => row.costofGoodsAndServicesSold,
+      width:'125px'
     },
     {
       name: 'sellingGeneralAndAdministrative',
       selector: row => row.sellingGeneralAndAdministrative,
+      width:'125px'
     },
     {
       name: 'researchAndDevelopment',
       selector: row => row.researchAndDevelopment,
+      width:'125px'
     },
     {
       name: 'operatingExpenses',
       selector: row => row.operatingExpenses,
+      width:'125px'
     },
-    {
-      name: 'investmentIncomeNet',
-      selector: row => row.investmentIncomeNet,
-    },
+    // {
+    //   name: 'investmentIncomeNet',
+    //   selector: row => row.investmentIncomeNet,
+    // },
     {
       name: 'netInterestIncome',
       selector: row => row.netInterestIncome,
+      width:'125px'
     },
     {
       name: 'interestIncome',
       selector: row => row.interestIncome,
+      width:'125px'
     },
     {
       name: 'interestExpense',
@@ -89,10 +99,12 @@ const Pattern = (props) => {
     {
       name: 'nonInterestIncome',
       selector: row => row.nonInterestIncome,
+      width:'125px'
     },
     {
       name: 'otherNonOperatingIncome',
       selector: row => row.otherNonOperatingIncome,
+      width:'125px'
     },
     // {
     //   name: 'depreciation',
@@ -105,22 +117,27 @@ const Pattern = (props) => {
     {
       name: 'incomeBeforeTax',
       selector: row => row.incomeBeforeTax,
+      width:'125px'
     },
     {
       name: 'incomeTaxExpense',
       selector: row => row.incomeTaxExpense,
+      width:'125px'
     },
     {
       name: 'interestAndDebtExpense',
       selector: row => row.interestAndDebtExpense,
+      width:'125px'
     },
     {
       name: 'netIncomeFromContinuingOperations',
       selector: row => row.netIncomeFromContinuingOperations,
+      width:'125px'
     },
     {
       name: 'comprehensiveIncomeNetOfTax',
       selector: row => row.comprehensiveIncomeNetOfTax,
+      width:'125px'
     },
     // {
     //   name: 'ebit',
@@ -133,6 +150,7 @@ const Pattern = (props) => {
     {
       name: 'netIncome',
       selector: row => row.netIncome,
+      width:'125px'
     },
     
 
@@ -186,7 +204,7 @@ const Pattern = (props) => {
             sellingGeneralAndAdministrative :element.sellingGeneralAndAdministrative,
             researchAndDevelopment :element.researchAndDevelopment,
             operatingExpenses :element.operatingExpenses,
-            investmentIncomeNet :element.investmentIncomeNet,
+            //investmentIncomeNet :element.investmentIncomeNet,
             netInterestIncome :element.netInterestIncome,
             interestIncome :element.interestIncome,
             interestExpense :element.interestExpense,
