@@ -57,7 +57,7 @@ const Login = (props) => {
       if (data.status) {
         data.userData.token = data.token
         props.save_user_data({ user: data.userData });
-        router.push('/account');
+        router.push('/');
         toast.success(data.message)
       } else {
         toast.error(data.message)
@@ -97,7 +97,7 @@ const Login = (props) => {
                     height: 100,
                     width: 100,
                   }}
-                  src="/static/images//logo.png" />
+                  src="/static/images/logo.png" />
               </Box>
               <Typography
                 color="textPrimary"
