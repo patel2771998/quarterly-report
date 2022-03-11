@@ -3,7 +3,8 @@ import Head from 'next/head';
 import {
   Box,
   Button,
-  AppBar,
+  Container,
+  Touchable,
   Toolbar,
   Card,
   CardContent,
@@ -18,98 +19,114 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import ApiServices from 'src/config/ApiServices';
 import ApiEndpoint from 'src/config/ApiEndpoint';
 import { DashboardLayout } from '../components/header-layout';
-//import '../components/styles.js';
 import { toast } from 'react-toastify';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import DataTable from 'react-data-table-component';
-import { Search as SearchIcon } from '../icons/search';
-
-//import "react-table/react-table.css";
-import withFixedColumns from 'react-table-hoc-fixed-columns';
 import 'react-table-hoc-fixed-columns/lib/styles.css' // important: this line must be placed after react-table css import
-import { left } from '@popperjs/core';
 
 
 
 const Pattern = (props) => {
 
   const router = useRouter();
+
   const columns = [
 
     {
       name: 'Date',
       selector: row => row.date,
       width: '100px',
+      style: {
+        background: '#61dafb !important',
+        width: '16em',
+        left: '0',
+        top: '6px',
+        flexgrow: 'unset',
+        background: 'white',
+        position: 'sticky',
+        zIndex: 1,
+        background: '#eee',
+      }
     },
     // {
     //   name: 'Currency',
     //   selector: row => row.reportedcurrency,
     // },
     {
-      name: 'GlossProfit',
-      selector: row => row.grossProfit,
-      width: '120px'
+      name: 'Gloss Profit',
+      selector: row => row.grossProfit
+
     },
     {
-      name: 'totalRevenue',
+      name: 'Total Revenue',
       selector: row => row.totalRevenue,
-      width: '125px'
+      width: '130px',
+
     },
     {
-      name: 'costOfRevenue',
+      name: 'Cost Of Revenue',
       selector: row => row.costOfRevenue,
-      width: '125px'
+      
+
     },
     {
-      name: 'costofGoodsAndServicesSold',
+      name: 'Cost Of Goods And Services Sold',
       selector: row => row.costofGoodsAndServicesSold,
-      width: '125px'
+      
+
     },
     {
-      name: 'sellingGeneralAndAdministrative',
+      name: 'Selling General And Administrative',
       selector: row => row.sellingGeneralAndAdministrative,
-      width: '125px'
+      
+
     },
     {
-      name: 'researchAndDevelopment',
+      name: 'Research And Development',
       selector: row => row.researchAndDevelopment,
-      width: '125px'
+      
+
     },
     {
-      name: 'operatingExpenses',
+      name: 'Operating Expenses',
       selector: row => row.operatingExpenses,
-      width: '125px'
+      
+
     },
     // {
     //   name: 'investmentIncomeNet',
     //   selector: row => row.investmentIncomeNet,
     // },
     {
-      name: 'netInterestIncome',
+      name: 'NetInterest Income',
       selector: row => row.netInterestIncome,
-      width: '125px'
+      
+
     },
     {
-      name: 'interestIncome',
+      name: 'Interest Income',
       selector: row => row.interestIncome,
-      width: '125px'
+      
+
     },
     {
-      name: 'interestExpense',
+      name: 'Interest Expense',
       selector: row => row.interestExpense,
+
     },
     {
-      name: 'nonInterestIncome',
+      name: 'Non Interest Income',
       selector: row => row.nonInterestIncome,
-      width: '125px'
+      
+
+
     },
     {
-      name: 'otherNonOperatingIncome',
+      name: 'Other Non Operating Income',
       selector: row => row.otherNonOperatingIncome,
-      width: '125px'
+      
+
     },
     // {
     //   name: 'depreciation',
@@ -120,29 +137,33 @@ const Pattern = (props) => {
     //   selector: row => row.depreciationAndAmortization,
     // },
     {
-      name: 'incomeBeforeTax',
+      name: 'Income Before Tax',
       selector: row => row.incomeBeforeTax,
-      width: '125px'
+      
+
     },
     {
-      name: 'incomeTaxExpense',
+      name: 'Income Tax Expense',
       selector: row => row.incomeTaxExpense,
-      width: '125px'
+      
+
     },
     {
-      name: 'interestAndDebtExpense',
+      name: 'Interest And Debt Expense',
       selector: row => row.interestAndDebtExpense,
-      width: '125px'
+      
+
     },
     {
-      name: 'netIncomeFromContinuingOperations',
+      name: 'Net Income From Continuing Operations',
       selector: row => row.netIncomeFromContinuingOperations,
       width: '125px'
     },
     {
-      name: 'comprehensiveIncomeNetOfTax',
+      name: 'Comprehensive Income Net Of Tax',
       selector: row => row.comprehensiveIncomeNetOfTax,
-      width: '125px'
+      
+
     },
     // {
     //   name: 'ebit',
@@ -153,30 +174,48 @@ const Pattern = (props) => {
     //   selector: row => row.ebitda,
     // },
     {
-      name: 'netIncome',
+      name: 'Net Income',
       selector: row => row.netIncome,
-      width: '125px'
+      
+
     },
-
-
   ];
 
 
   var columnData = [];
-  const ExpandedComponent = ({ data1 }) => <pre>{JSON.stringify(data1, null, 2)}</pre>;
   const [data, setData] = useState('');
-  const [isFollowOpen, setFollowOpen] = useState(false)
+  const [isfollow, setFollow] = useState(false);
   const [rowdata, setRowData] = useState(0);
 
   useEffect(() => {
     if (!!props.router.query.data) {
       findReports(props.router.query.data)
+      if (props.profile.token != undefined) {
+        chekFollow(props.router.query.data)
+      }
     } else {
       var symbol = props.router.asPath.split('=')
       findReports(symbol[symbol.length - 1])
+      if (props.profile.token != undefined) {
+        chekFollow(symbol[symbol.length - 1])
+      }
+
     }
   }, [])
 
+
+
+  const customStylesTable = {
+    rows: {
+      style: { position: 'relative' }
+    },
+    head: {
+      style: {
+        zIndex: 3,
+      },
+    },
+
+  };
 
   const capitalizeFirstLetter = (string) => {
     return string.toUpperCase();
@@ -192,10 +231,12 @@ const Pattern = (props) => {
     props.loaderRef(true)
     var reportDetail = await ApiServices.PostApiCall(ApiEndpoint.GET_REPORT, JSON.stringify(obj), headers)
     props.loaderRef(false)
-    if (!!reportDetail && !!reportDetail.symbol) {
+    console.log(reportDetail)
+    if (!!reportDetail && reportDetail.status == true) {
+      console.log(reportDetail.data.quarterlyReports.length)
       var reportRowList = []
-      for (let index = 0; index < reportDetail.quarterlyReports.length; index++) {
-        const element = reportDetail.quarterlyReports[index];
+      for (let index = 0; index < reportDetail.data.quarterlyReports.length; index++) {
+        const element = reportDetail.data.quarterlyReports[index];
         var date = new Date(element.fiscalDateEnding)
         var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + new Date().getFullYear()
         var obj1 = {
@@ -225,22 +266,59 @@ const Pattern = (props) => {
           comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
           // ebit :element.ebit,
           // ebitda :element.ebitda,
-          netIncome: element.netIncome
+          netIncome: element.netIncome,
+          style: { position: 'relative' }
         }
 
         columnData.push(obj1);
 
       }
       setRowData(columnData)
-      setData(reportDetail)
-
+      setData(reportDetail.data)
     }
     else {
       toast.error('not reasult found')
     }
   }
 
-  const followSymbol = async (send) => {
+  const followSymbol = async (send1) => {
+    var body = {
+      "symbol": send1.symbol,
+      "fiscalDateEnding": send1.quarterlyReports[0].fiscalDateEnding
+    }
+    var headers = {
+      "Content-Type": "application/json",
+      "x-access-token": props.profile.token
+    }
+    props.loaderRef(true)
+    var followDetail = await ApiServices.PostApiCall(ApiEndpoint.FOLLOW, JSON.stringify(body), headers)
+    props.loaderRef(false)
+    if (!!followDetail && followDetail.status == true) {
+      setFollow(true)
+      console.log(followDetail)
+      console.log(isfollow)
+    }
+
+  }
+
+
+  const chekFollow = async (symbol2) => {
+    var body = {
+      "symbol": capitalizeFirstLetter(symbol2),
+    }
+    var headers = {
+      "Content-Type": "application/json",
+      "x-access-token": props.profile.token
+    }
+    props.loaderRef(true)
+    var followCheckDetail = await ApiServices.PostApiCall(ApiEndpoint.CHECK_FOLLOW, JSON.stringify(body), headers)
+    props.loaderRef(false)
+    if (!!followCheckDetail && !!followCheckDetail.status == true) {
+      setFollow(true)
+    }
+  }
+
+  const unFollowSymbol = async (send) => {
     var body = {
       "symbol": send.symbol,
       "fiscalDateEnding": send.quarterlyReports[0].fiscalDateEnding
@@ -253,88 +331,93 @@ const Pattern = (props) => {
     var followDetail = await ApiServices.PostApiCall(ApiEndpoint.UNFOLLOW, JSON.stringify(body), headers)
     props.loaderRef(false)
     if (!!followDetail && followDetail.status == true) {
+      setFollow(false)
     }
 
   }
-
-
-  const unFollowSymbol = async (send) => {
-    var body = {
-      "symbol": send.symbol,
-      "fiscalDateEnding": send.quarterlyReports[0].fiscalDateEnding
-    }
-    var headers = {
-      "Content-Type": "application/json",
-      "x-access-token": props.profile.token
-    }
-    props.loaderRef(true)
-    var followDetail = await ApiServices.PostApiCall(ApiEndpoint.FOLLOW, JSON.stringify(body), headers)
-    props.loaderRef(false)
-    if (!!followDetail && followDetail.status == true) {
-    }
-
-  }
-
 
   return (
-    <>          
+    <>
       <DashboardLayout>
       </DashboardLayout>
-      <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, }}>
-      <Typography
-            sx={{ m: 1 }}
-            variant="h4"
-          >
-           {data.symbol}
-          </Typography>
-          {props.profile.token == undefined ? <Box
-          sx={{
-            ml:90,
-            //alignItems: 'center',
-            display: 'flex-end',
-            justifyContent: 'flex-end',
-            //flexWrap: 'wrap',
-          }}
-        >
-          <Typography
-            sx={{ }}
-            variant="h4"
-          >
-            please login is required follow
-          </Typography>
-        </Box> :
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1
+        }}
+      >
+        <Container >
           <Box
-            sx={{ flex: 1, mt: 5 }}>
-            <Button
-              color="primary"
-              type="submit"
-              onClick={() => {
-                followSymbol(data)
-              }}
-              //onClick={ findReports()}
-              variant="contained"
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              height:'50px',
+              position:''
+             // mt: -2
+            }}
+          >
+            <Typography
+              variant="h4"
             >
-              Follow
-            </Button>
-          </Box>}
-      </Box>
-     
-      <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, }}>
-        <Box sx={{ ml: 5 }}>
+              {data.symbol}
+            </Typography>
+            <Box sx={{ m: 1 }} >
+              {props.profile.token == undefined ?
+              <Box>
+               <Typography>
+                Want to follow this stock, please
+              </Typography> 
+            </Box>:
+                isfollow == false ? <Button
+                  color="primary"
+                  type="submit"
+                  onClick={() => {
+                    followSymbol(data)
+                  }}
+                  variant="contained"
+                >
+                  Follow
+                </Button> : <Button
+                  color="primary"
+                  type="submit"
+                  onClick={() => {
+                    unFollowSymbol(data)
+                  }}
+                  variant="contained"
+                >
+                  UnFollow
+                </Button>}
+            </Box>
+          </Box>
+        </Container>
+        <Box sx={{ m: 'auto', width: '87%',mb:'50px' }}>
           <DataTable
             columns={columns}
             data={rowdata}
             fixedHeader
-            fixedHeaderScrollHeight="600px"
+            fixedHeaderScrollHeight="150vh"
+            customStyles={customStylesTable}
           />
         </Box>
-        
-
       </Box>
-
+      <div style={{
+          color:'inherit',
+          fontWeight:600,
+         backgroundColor: 'rgb(255 255 255)',
+          borderTop: "1px solid #E7E7E7",
+          textAlign: "center",
+          padding: "10px",
+         // position: "fixed",
+          left: "0",
+          bottom: "0",
+          height: "40px",
+          width: "100%",}}>
+   <p>This is some content in sticky footer</p>
+  </div>
     </>
   );
-
 }
 
 

@@ -16,6 +16,7 @@ import { Lock as LockIcon } from '../icons/lock';
 import { ShoppingBag as ShoppingBagIcon } from '../icons/shopping-bag';
 import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
+import { toast } from 'react-toastify';
 import { Types } from '../constants/actionTypes';
 const items = [
     {
@@ -66,10 +67,10 @@ const DashboardSidebar = (props) => {
 
     return (
         <>
-            <AppBar position="static" color="inherit">
-                <Toolbar>
+            <AppBar position="static" color="inherit" >
+                <Toolbar >
 
-                    <Box sx={{ flexGrow: 1 }}>
+                    <Box sx={{ flexGrow: 1}}>
                         <NextLink
                             href="/"
                             passHref
