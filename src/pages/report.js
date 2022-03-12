@@ -184,20 +184,22 @@ const Pattern = (props) => {
     },
   ];
 
-
   var columnData = [];
   const [data, setData] = useState('');
   const [isfollow, setFollow] = useState(false);
   const [rowdata, setRowData] = useState(0);
+  const [sym ,setSym] = useState('')
 
   useEffect(() => {
     if (!!props.router.query.data) {
       findReports(props.router.query.data)
+      setSym(props.router.query.data)
       if (props.profile.token != undefined) {
         chekFollow(props.router.query.data)
       }
     } else {
       var symbol = props.router.asPath.split('=')
+      setSym(symbol[symbol.length - 1])
       findReports(symbol[symbol.length - 1])
       if (props.profile.token != undefined) {
         chekFollow(symbol[symbol.length - 1])
@@ -206,6 +208,8 @@ const Pattern = (props) => {
     }
   }, [])
 
+
+  console.log(sym);
 
 
   const customStylesTable = {
@@ -234,9 +238,9 @@ const Pattern = (props) => {
     props.loaderRef(true)
     var reportDetail = await ApiServices.PostApiCall(ApiEndpoint.GET_REPORT, JSON.stringify(obj), headers)
     props.loaderRef(false)
-    console.log(reportDetail)
+    //// console.log(reportDetail)
     if (!!reportDetail && reportDetail.status == true) {
-      console.log(reportDetail.data.quarterlyReports.length)
+      //// console.log(reportDetail.data.quarterlyReports.length)
       var reportRowList = []
       for (let index = 0; index < reportDetail.data.quarterlyReports.length; index++) {
         const element = reportDetail.data.quarterlyReports[index];
@@ -330,8 +334,8 @@ const Pattern = (props) => {
     props.loaderRef(false)
     if (!!followDetail && followDetail.status == true) {
       setFollow(true)
-      console.log(followDetail)
-      console.log(isfollow)
+      // console.log(followDetail)
+      // console.log(isfollow)
     }
 
   }
@@ -370,25 +374,16 @@ const Pattern = (props) => {
     }
 
   }
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
       <DashboardLayout>
       </DashboardLayout>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Earning Reports" {...a11yProps(0)} />
-          <Tab label="Charts" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1
-        }}
-      >
-        <Container >
+      <Container >
           <Box
             sx={{
               alignItems: 'center',
@@ -434,19 +429,32 @@ const Pattern = (props) => {
             </Box>
           </Box>
         </Container>
-        <Box sx={{ m: 'auto', width: '87%',mb:'50px' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="Earning Reports" {...a11yProps(0)} />
+          <Tab label="Charts" {...a11yProps(1)} />
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1
+        }}
+      >
+        <Box sx={{ m: 'auto', height : '60vh',width: '87%',mb:'50px' }}>
           <DataTable
             columns={columns}
             data={rowdata}
             fixedHeader
-            fixedHeaderScrollHeight="150vh"
+            fixedHeaderScrollHeight="60vh"
             customStyles={customStylesTable}
           />
         </Box>
       </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-          <Box><Chart  symbol={symbol}/></Box>
+          <Box><Chart  symbol={sym}/></Box>
       </TabPanel>
       <div style={{
           color:'inherit',

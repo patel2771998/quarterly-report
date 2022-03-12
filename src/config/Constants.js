@@ -1,5 +1,5 @@
 export default {
-    BASE_API_URL: process.env.NEXT_PUBLIC_API_HOST,
+    BASE_API_URL: "http://localhost:8000/api/",
     IS_INTERNET_AVAILABLE: true,
     SESSION_TOKEN: 'session_token',
     ACCESS_TOKEN: 'access_token',
