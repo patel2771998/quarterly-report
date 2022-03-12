@@ -342,8 +342,8 @@ const Pattern = (props) => {
             {props.profile.token == undefined ?
               <Box sx={{flex:1}}>
                 <Typography>
-                  Want to follow this stock, please
-                  <a href='login' passHref>  login</a>  
+                  Want to follow this stock, please login
+                  {/* <a href='login' passHref>  login</a>   */}
                 </Typography>
               </Box> :
               isfollow == false ? <Button
