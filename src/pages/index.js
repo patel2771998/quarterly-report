@@ -27,7 +27,6 @@ const Dashboard = (props) => {
 
   const router = useRouter();
 
-
   const capitalizeFirstLetter = (string) => {
     return string.toUpperCase();
   }
@@ -81,29 +80,37 @@ const Dashboard = (props) => {
               </Typography>
             </Box>
             <Box sx={{ flex: 1 }}>
-              <CardContent>
-                <Box sx={{ width: 400 }}>
-                  <TextField
-                    fullWidth
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SvgIcon
-                            fontSize="small"
-                            color="action"
-                          >
-                            <SearchIcon />
-                          </SvgIcon>
-                        </InputAdornment>
-                      )
-                    }}
-                    onChange={(event) => {
-                      let value = event.target.value;
-                      setEnterValue(value)
-                    }}
-                  />
-                </Box>
-              </CardContent>
+              <form onSubmit={(event) => {
+                findReports(entervalue);
+                event.preventDefault();
+                return false;
+              }}>
+                <CardContent>
+                  <Box sx={{
+                    width: 400
+                  }}>
+                    <TextField
+                      fullWidth
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SvgIcon
+                              fontSize="small"
+                              color="action"
+                            >
+                              <SearchIcon />
+                            </SvgIcon>
+                          </InputAdornment>
+                        )
+                      }}
+                      onChange={(event) => {
+                        let value = event.target.value;
+                        setEnterValue(value)
+                      }}
+                    />
+                  </Box>
+                </CardContent>
+                </form>
             </Box>
             <Box sx={{ flex: 1, mt: 5 }}>
               <Button
@@ -118,6 +125,7 @@ const Dashboard = (props) => {
               </Button>
             </Box>
           </Box>
+
         </Box>
         <Box sx={{
           alignItems: 'center',
@@ -130,19 +138,20 @@ const Dashboard = (props) => {
         </Box>
       </Box>
       <div style={{
-          color:'inherit',
-          fontWeight:600,
-         backgroundColor: 'rgb(255 255 255)',
-          borderTop: "1px solid #E7E7E7",
-          textAlign: "center",
-          padding: "10px",
-          position: "fixed",
-          left: "0",
-          bottom: "0",
-          height: "40px",
-          width: "100%",}}>
-   <p>This is some content in sticky footer</p>
-  </div>
+        color: 'inherit',
+        fontWeight: 600,
+        backgroundColor: 'rgb(255 255 255)',
+        borderTop: "1px solid #E7E7E7",
+        textAlign: "center",
+        padding: "10px",
+        position: "fixed",
+        left: "0",
+        bottom: "0",
+        height: "40px",
+        width: "100%",
+      }}>
+        <p>This is some content in sticky footer</p>
+      </div>
     </>
   )
 }

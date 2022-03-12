@@ -33,9 +33,7 @@ import Chart from './Chart';
 const Pattern = (props) => {
 
   const router = useRouter();
-
   const columns = [
-
     {
       name: 'Date',
       selector: row => row.date,
@@ -52,110 +50,65 @@ const Pattern = (props) => {
         background: '#eee',
       }
     },
-    // {
-    //   name: 'Currency',
-    //   selector: row => row.reportedcurrency,
-    // },
     {
       name: 'Gloss Profit',
       selector: row => row.grossProfit
-
     },
     {
       name: 'Total Revenue',
       selector: row => row.totalRevenue,
-      width: '130px',
-
     },
     {
       name: 'Cost Of Revenue',
       selector: row => row.costOfRevenue,
-      
-
     },
     {
       name: 'Cost Of Goods And Services Sold',
       selector: row => row.costofGoodsAndServicesSold,
-      
-
     },
     {
       name: 'Selling General And Administrative',
       selector: row => row.sellingGeneralAndAdministrative,
-      
-
     },
     {
       name: 'Research And Development',
       selector: row => row.researchAndDevelopment,
-      
-
     },
     {
       name: 'Operating Expenses',
       selector: row => row.operatingExpenses,
-      
-
     },
-    // {
-    //   name: 'investmentIncomeNet',
-    //   selector: row => row.investmentIncomeNet,
-    // },
     {
       name: 'NetInterest Income',
       selector: row => row.netInterestIncome,
-      
-
     },
     {
       name: 'Interest Income',
       selector: row => row.interestIncome,
-      
-
     },
     {
       name: 'Interest Expense',
       selector: row => row.interestExpense,
-
     },
     {
       name: 'Non Interest Income',
       selector: row => row.nonInterestIncome,
-      
-
-
     },
     {
       name: 'Other Non Operating Income',
       selector: row => row.otherNonOperatingIncome,
-      
-
     },
-    // {
-    //   name: 'depreciation',
-    //   selector: row => row.depreciation,
-    // },
-    // {
-    //   name: 'depreciationAndAmortization',
-    //   selector: row => row.depreciationAndAmortization,
-    // },
     {
       name: 'Income Before Tax',
       selector: row => row.incomeBeforeTax,
-      
-
     },
     {
       name: 'Income Tax Expense',
       selector: row => row.incomeTaxExpense,
-      
-
     },
     {
       name: 'Interest And Debt Expense',
       selector: row => row.interestAndDebtExpense,
-      
-
     },
     {
       name: 'Net Income From Continuing Operations',
@@ -165,22 +118,10 @@ const Pattern = (props) => {
     {
       name: 'Comprehensive Income Net Of Tax',
       selector: row => row.comprehensiveIncomeNetOfTax,
-      
-
     },
-    // {
-    //   name: 'ebit',
-    //   selector: row => row.ebit,
-    // },
-    // {
-    //   name: 'ebitda',
-    //   selector: row => row.ebitda,
-    // },
     {
       name: 'Net Income',
       selector: row => row.netIncome,
-      
-
     },
   ];
 
@@ -188,9 +129,10 @@ const Pattern = (props) => {
   const [data, setData] = useState('');
   const [isfollow, setFollow] = useState(false);
   const [rowdata, setRowData] = useState(0);
-  const [sym ,setSym] = useState('')
+  const [sym, setSym] = useState('')
 
   useEffect(() => {
+
     if (!!props.router.query.data) {
       findReports(props.router.query.data)
       setSym(props.router.query.data)
@@ -207,10 +149,6 @@ const Pattern = (props) => {
 
     }
   }, [])
-
-
-  console.log(sym);
-
 
   const customStylesTable = {
     rows: {
@@ -287,10 +225,10 @@ const Pattern = (props) => {
       toast.error('not reasult found')
     }
   }
-  
+
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
-  
+
     return (
       <div
         role="tabpanel"
@@ -307,13 +245,13 @@ const Pattern = (props) => {
       </div>
     );
   }
-  
+
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
   };
-  
+
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
@@ -384,92 +322,95 @@ const Pattern = (props) => {
       <DashboardLayout>
       </DashboardLayout>
       <Container >
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            height: '50px',
+            position: ''
+            // mt: -2
+          }}
+        >
+          <Typography
+            variant="h4"
+          >
+            {data.symbol}
+          </Typography>
+          <Box sx={{ m: 1 }} >
+            {props.profile.token == undefined ?
+              <Box sx={{flex:1}}>
+                <Typography>
+                  Want to follow this stock, please
+                  <a href='login' passHref>  login</a>  
+                </Typography>
+              </Box> :
+              isfollow == false ? <Button
+                color="primary"
+                type="submit"
+                onClick={() => {
+                  followSymbol(data)
+                }}
+                variant="contained"
+              >
+                Follow
+              </Button> : <Button
+                color="primary"
+                type="submit"
+                onClick={() => {
+                  unFollowSymbol(data)
+                }}
+                variant="contained"
+              >
+                UnFollow
+              </Button>}
+          </Box>
+        </Box>
+
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label="Earning Report" {...a11yProps(0)} />
+            <Tab label="Chart" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
           <Box
+            component="main"
             sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              height:'50px',
-              position:''
-             // mt: -2
+              flexGrow: 1
             }}
           >
-            <Typography
-              variant="h4"
-            >
-              {data.symbol}
-            </Typography>
-            <Box sx={{ m: 1 }} >
-              {props.profile.token == undefined ?
-              <Box>
-               <Typography>
-                Want to follow this stock, please
-              </Typography> 
-            </Box>:
-                isfollow == false ? <Button
-                  color="primary"
-                  type="submit"
-                  onClick={() => {
-                    followSymbol(data)
-                  }}
-                  variant="contained"
-                >
-                  Follow
-                </Button> : <Button
-                  color="primary"
-                  type="submit"
-                  onClick={() => {
-                    unFollowSymbol(data)
-                  }}
-                  variant="contained"
-                >
-                  UnFollow
-                </Button>}
+            <Box sx={{ height: '80vh', width: '100%', mb: '50px' }}>
+              <DataTable
+                columns={columns}
+                data={rowdata}
+                fixedHeader
+                fixedHeaderScrollHeight="80vh"
+                customStyles={customStylesTable}
+              />
             </Box>
           </Box>
-        </Container>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Earning Reports" {...a11yProps(0)} />
-          <Tab label="Charts" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1
-        }}
-      >
-        <Box sx={{ m: 'auto', height : '60vh',width: '87%',mb:'50px' }}>
-          <DataTable
-            columns={columns}
-            data={rowdata}
-            fixedHeader
-            fixedHeaderScrollHeight="60vh"
-            customStyles={customStylesTable}
-          />
-        </Box>
-      </Box>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-          <Box><Chart  symbol={sym}/></Box>
-      </TabPanel>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Box><Chart symbol={sym} /></Box>
+        </TabPanel>
+      </Container>
       <div style={{
-          color:'inherit',
-          fontWeight:600,
-         backgroundColor: 'rgb(255 255 255)',
-          borderTop: "1px solid #E7E7E7",
-          textAlign: "center",
-          padding: "10px",
-         // position: "fixed",
-          left: "0",
-          bottom: "0",
-          height: "40px",
-          width: "100%",}}>
-   <p>This is some content in sticky footer</p>
-  </div>
+        color: 'inherit',
+        fontWeight: 600,
+        backgroundColor: 'rgb(255 255 255)',
+        borderTop: "1px solid #E7E7E7",
+        textAlign: "center",
+        padding: "10px",
+        // position: "fixed",
+        left: "0",
+        bottom: "0",
+        height: "40px",
+        width: "100%",
+      }}>
+        <p>This is some content in sticky footer</p>
+      </div>
     </>
   );
 }

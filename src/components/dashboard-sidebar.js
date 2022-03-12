@@ -93,7 +93,7 @@ const DashboardSidebar = (props) => {
                         <Button color="inherit"
                             onClick={() => {
                                 router.push('/login');
-                            }}>Login/Register</Button> :
+                            }}>Login</Button> :
                         <Button color="inherit"
                             onClick={() => {
                                 setLogoutOpen(true)
