@@ -24,8 +24,11 @@ import ReactTable from 'react-table';
 import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import 'react-table-hoc-fixed-columns/lib/styles.css' // important: this line must be placed after react-table css import
-
-
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Chart from './Chart';
 
 const Pattern = (props) => {
 
@@ -280,7 +283,39 @@ const Pattern = (props) => {
       toast.error('not reasult found')
     }
   }
-
+  
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+  
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+  
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
   const followSymbol = async (send1) => {
     var body = {
       "symbol": send1.symbol,
@@ -340,6 +375,13 @@ const Pattern = (props) => {
     <>
       <DashboardLayout>
       </DashboardLayout>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="Earning Reports" {...a11yProps(0)} />
+          <Tab label="Charts" {...a11yProps(1)} />
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
       <Box
         component="main"
         sx={{
@@ -402,6 +444,10 @@ const Pattern = (props) => {
           />
         </Box>
       </Box>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+          <Box><Chart  symbol={symbol}/></Box>
+      </TabPanel>
       <div style={{
           color:'inherit',
           fontWeight:600,
