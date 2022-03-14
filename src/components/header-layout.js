@@ -9,7 +9,7 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   maxWidth: '100%',
   paddingTop: 20,
   [theme.breakpoints.up('lg')]: {
-    paddingLeft: 280
+  paddingLeft: 280
   }
 }));
 
@@ -21,11 +21,11 @@ export const DashboardLayout = (props) => {
     <>
      <DashboardSidebar
       />
-      <DashboardLayoutRoot>
+      {/* <DashboardLayoutRoot> */}
         <Box>
           {children}
         </Box>
-      </DashboardLayoutRoot>
+      {/* </DashboardLayoutRoot> */}
     </>
   );
 };

@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   Touchable,
+  Link,
   Toolbar,
   Card,
   CardContent,
@@ -183,7 +184,7 @@ const Pattern = (props) => {
       for (let index = 0; index < reportDetail.data.quarterlyReports.length; index++) {
         const element = reportDetail.data.quarterlyReports[index];
         var date = new Date(element.fiscalDateEnding)
-        var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + new Date().getFullYear()
+        var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
         var obj1 = {
           id: index,
           date: lastDate,
@@ -321,7 +322,7 @@ const Pattern = (props) => {
     <>
       <DashboardLayout>
       </DashboardLayout>
-      <Container >
+      <Container sx={{height:'100vh'}}>
         <Box
           sx={{
             alignItems: 'center',
@@ -342,8 +343,12 @@ const Pattern = (props) => {
             {props.profile.token == undefined ?
               <Box sx={{flex:1}}>
                 <Typography>
-                  Want to follow this stock, please login
-                  {/* <a href='login' passHref>  login</a>   */}
+                  Want to follow this stock, please 
+                  <Link
+        href="/login"
+      >
+        Login
+      </Link>
                 </Typography>
               </Box> :
               isfollow == false ? <Button
@@ -393,10 +398,10 @@ const Pattern = (props) => {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Box><Chart symbol={sym} /></Box>
+          <Box sx={{mb:50}}><Chart symbol={sym} /></Box>
         </TabPanel>
       </Container>
-      <div style={{
+      <Box sx={{
         color: 'inherit',
         fontWeight: 600,
         backgroundColor: 'rgb(255 255 255)',
@@ -409,8 +414,8 @@ const Pattern = (props) => {
         height: "40px",
         width: "100%",
       }}>
-        <p>This is some content in sticky footer</p>
-      </div>
+        This is some content in sticky footer
+      </Box>
     </>
   );
 }

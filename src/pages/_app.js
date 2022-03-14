@@ -15,26 +15,26 @@ import { useEffect, useState } from 'react';
 const clientSideEmotionCache = createEmotionCache();
 const store = configureStore()
 const App = (props) => {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [isProgress, setIsProgress] = useState(false)
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  // const [isLoaded, setIsLoaded] = useState(false)
+   const [isProgress, setIsProgress] = useState(false)
+   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const getLayout = Component.getLayout ?? ((page) => page);
   store.subscribe(() => {
     localStorage.setItem('reduxState', JSON.stringify(store.getState()))
   })
 
-  useEffect(() => {
-    var persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
-    if (!!persistedState && !!persistedState.user && !!persistedState.user.profile.token) {
-      setIsLoaded(true)
-    } else {
-      props.router.push('/');
-      setTimeout(() => {
-        setIsLoaded(true)
-      }, 300);
-    }
-  }, [])
+  // useEffect(() => {
+  //   var persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+  //   if (!!persistedState && !!persistedState.user && !!persistedState.user.profile.token) {
+  //     setIsLoaded(true)
+  //   } else {
+  //     props.router.push('/');
+  //     setTimeout(() => {
+  //       setIsLoaded(true)
+  //     }, 300);
+  //    }
+  // }, [])
 
   return (
     <Provider store={store}>
@@ -54,7 +54,9 @@ const App = (props) => {
             {isProgress && <Box sx={{ display: 'flex', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, justifyContent: 'center', alignItems: 'center', zIndex: 10 }}>
               <CircularProgress color={'primary'} />
             </Box>}
-            {isLoaded ? getLayout(<Component loaderRef={setIsProgress} {...pageProps} />) : null}
+            
+            {/* {isLoaded ? getLayout(<Component loaderRef={setIsProgress} {...pageProps} />) : null} */}
+            {getLayout(<Component loaderRef={setIsProgress} {...pageProps} />)}
           </ThemeProvider>
         </LocalizationProvider>
         <ToastContainer theme='colored' />

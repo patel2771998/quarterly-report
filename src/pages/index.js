@@ -61,83 +61,84 @@ const Dashboard = (props) => {
   return (
     <>
       <Box {...props}>
-        <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, mt: 5 }}>
-          <Box sx={{ flex: 1, flexDirection: 'row', display: 'flex' }}>
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                m: -1
-              }}
-            >
-              <Typography
-                sx={{ m: 1 }}
-                variant="h4"
-              >
-                Ticker
-              </Typography>
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <form onSubmit={(event) => {
-                findReports(entervalue);
-                event.preventDefault();
-                return false;
-              }}>
-                <CardContent>
-                  <Box sx={{
-                    width: 400
-                  }}>
-                    <TextField
-                      fullWidth
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <SvgIcon
-                              fontSize="small"
-                              color="action"
-                            >
-                              <SearchIcon />
-                            </SvgIcon>
-                          </InputAdornment>
-                        )
-                      }}
-                      onChange={(event) => {
-                        let value = event.target.value;
-                        setEnterValue(value)
-                      }}
-                    />
-                  </Box>
-                </CardContent>
-                </form>
-            </Box>
-            <Box sx={{ flex: 1, mt: 5 }}>
-              <Button
-                color="primary"
-                type="submit"
-                onClick={() => {
-                  findReports(entervalue)
+        <Box sx={{ width: '50%', m: 'auto' }}>
+          <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, mt: 30 }}>
+            <Box sx={{ flex: 1, flexDirection: 'row', display: 'flex' }}>
+              <Box
+                sx={{
+                  alignItems: 'center',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  m: -1
                 }}
-                variant="contained"
               >
-                Search
-              </Button>
+                <Typography
+                  sx={{ m: 1 }}
+                  variant="h4"
+                >
+                  Ticker
+                </Typography>
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <form onSubmit={(event) => {
+                  findReports(entervalue);
+                  event.preventDefault();
+                  return false;
+                }}>
+                  <CardContent>
+                    <Box sx={{
+                      width: 400
+                    }}>
+                      <TextField
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SvgIcon
+                                fontSize="small"
+                                color="action"
+                              >
+                                <SearchIcon />
+                              </SvgIcon>
+                            </InputAdornment>
+                          )
+                        }}
+                        onChange={(event) => {
+                          let value = event.target.value;
+                          setEnterValue(value)
+                        }}
+                      />
+                    </Box>
+                  </CardContent>
+                </form>
+              </Box>
+              <Box sx={{ flex: 1, mt: 5 }}>
+                <Button
+                  color="primary"
+                  type="submit"
+                  onClick={() => {
+                    findReports(entervalue)
+                  }}
+                  variant="contained"
+                >
+                  Search
+                </Button>
+              </Box>
             </Box>
           </Box>
-
-        </Box>
-        <Box sx={{
-          alignItems: 'center',
-          display: 'flex',
-          ml: '20%'
-        }}>
-          {result == true ? <Typography>
-            Result Not Found
-          </Typography> : ''}
+          <Box sx={{
+            alignItems: 'center',
+            display: 'flex',
+            ml: '20%'
+          }}>
+            {result == true ? <Typography>
+              Result Not Found
+            </Typography> : ''}
+          </Box>
         </Box>
       </Box>
-      <div style={{
+      <Box sx={{
         color: 'inherit',
         fontWeight: 600,
         backgroundColor: 'rgb(255 255 255)',
@@ -150,8 +151,8 @@ const Dashboard = (props) => {
         height: "40px",
         width: "100%",
       }}>
-        <p>This is some content in sticky footer</p>
-      </div>
+        This is some content in sticky footer
+      </Box>
     </>
   )
 }
