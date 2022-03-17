@@ -31,7 +31,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Chart from './Chart';
 
-const Pattern = (props) => {
+const Report = (props) => {
 
   const router = useRouter();
   const columns = [
@@ -126,29 +126,17 @@ const Pattern = (props) => {
     },
   ];
 
-  var columnData = [];
+  console.log(props.props)
+  
   const [data, setData] = useState('');
   const [isfollow, setFollow] = useState(false);
   const [rowdata, setRowData] = useState(0);
   const [sym, setSym] = useState('')
 
+  const symbol = props.reportdata.symbol
+
   useEffect(() => {
-
-    if (!!props.router.query.data) {
-      findReports(props.router.query.data)
-      setSym(props.router.query.data)
-      if (props.profile.token != undefined) {
-        chekFollow(props.router.query.data)
-      }
-    } else {
-      var symbol = props.router.asPath.split('=')
-      setSym(symbol[symbol.length - 1])
-      findReports(symbol[symbol.length - 1])
-      if (props.profile.token != undefined) {
-        chekFollow(symbol[symbol.length - 1])
-      }
-
-    }
+    chekFollow(symbol)
   }, [])
 
   const customStylesTable = {
@@ -162,70 +150,108 @@ const Pattern = (props) => {
     },
 
   };
+  var columnData = [];
+  for (let index = 0; index < props.reportdata.quarterlyReports.length; index++) {
+    const element = props.reportdata.quarterlyReports[index];
+    var date = new Date(element.fiscalDateEnding)
+    var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
+    var obj1 = {
+      id: index,
+      date: lastDate,
+      // reportedcurrency: element.reportedCurrency,
+      grossProfit: element.grossProfit,
+      totalRevenue: element.totalRevenue,
+      costOfRevenue: element.costOfRevenue,
+      costofGoodsAndServicesSold: element.costofGoodsAndServicesSold,
+      operatingIncome: element.operatingIncome,
+      sellingGeneralAndAdministrative: element.sellingGeneralAndAdministrative,
+      researchAndDevelopment: element.researchAndDevelopment,
+      operatingExpenses: element.operatingExpenses,
+      //investmentIncomeNet :element.investmentIncomeNet,
+      netInterestIncome: element.netInterestIncome,
+      interestIncome: element.interestIncome,
+      interestExpense: element.interestExpense,
+      nonInterestIncome: element.nonInterestIncome,
+      otherNonOperatingIncome: element.otherNonOperatingIncome,
+      // depreciation :element.depreciation,
+      //depreciationAndAmortization :element.depreciationAndAmortization,
+      incomeBeforeTax: element.incomeBeforeTax,
+      incomeTaxExpense: element.incomeTaxExpense,
+      interestAndDebtExpense: element.interestAndDebtExpense,
+      netIncomeFromContinuingOperations: element.netIncomeFromContinuingOperations,
+      comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
+      // ebit :element.ebit,
+      // ebitda :element.ebitda,
+      netIncome: element.netIncome,
+      style: { position: 'relative' }
+    }
 
+    columnData.push(obj1);
+ 
+  }
   const capitalizeFirstLetter = (string) => {
     return string.toUpperCase();
   }
 
-  const findReports = async (symbol1) => {
-    var obj = {
-      "symbol": capitalizeFirstLetter(symbol1)
-    }
-    var headers = {
-      "Content-Type": "application/json",
-    }
-    props.loaderRef(true)
-    var reportDetail = await ApiServices.PostApiCall(ApiEndpoint.GET_REPORT, JSON.stringify(obj), headers)
-    props.loaderRef(false)
-    //// console.log(reportDetail)
-    if (!!reportDetail && reportDetail.status == true) {
-      //// console.log(reportDetail.data.quarterlyReports.length)
-      var reportRowList = []
-      for (let index = 0; index < reportDetail.data.quarterlyReports.length; index++) {
-        const element = reportDetail.data.quarterlyReports[index];
-        var date = new Date(element.fiscalDateEnding)
-        var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
-        var obj1 = {
-          id: index,
-          date: lastDate,
-          // reportedcurrency: element.reportedCurrency,
-          grossProfit: element.grossProfit,
-          totalRevenue: element.totalRevenue,
-          costOfRevenue: element.costOfRevenue,
-          costofGoodsAndServicesSold: element.costofGoodsAndServicesSold,
-          operatingIncome: element.operatingIncome,
-          sellingGeneralAndAdministrative: element.sellingGeneralAndAdministrative,
-          researchAndDevelopment: element.researchAndDevelopment,
-          operatingExpenses: element.operatingExpenses,
-          //investmentIncomeNet :element.investmentIncomeNet,
-          netInterestIncome: element.netInterestIncome,
-          interestIncome: element.interestIncome,
-          interestExpense: element.interestExpense,
-          nonInterestIncome: element.nonInterestIncome,
-          otherNonOperatingIncome: element.otherNonOperatingIncome,
-          // depreciation :element.depreciation,
-          //depreciationAndAmortization :element.depreciationAndAmortization,
-          incomeBeforeTax: element.incomeBeforeTax,
-          incomeTaxExpense: element.incomeTaxExpense,
-          interestAndDebtExpense: element.interestAndDebtExpense,
-          netIncomeFromContinuingOperations: element.netIncomeFromContinuingOperations,
-          comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
-          // ebit :element.ebit,
-          // ebitda :element.ebitda,
-          netIncome: element.netIncome,
-          style: { position: 'relative' }
-        }
+  // const findReports = async (symbol1) => {
+  //   var obj = {
+  //     "symbol": capitalizeFirstLetter(symbol1)
+  //   }
+  //   var headers = {
+  //     "Content-Type": "application/json",
+  //   }
+  //   props.loaderRef(true)
+  //   var reportDetail = await ApiServices.PostApiCall(ApiEndpoint.GET_REPORT, JSON.stringify(obj), headers)
+  //   props.loaderRef(false)
+  //   //// console.log(reportDetail)
+  //   if (!!reportDetail && reportDetail.status == true) {
+  //     //// console.log(reportDetail.data.quarterlyReports.length)
+  //     var reportRowList = []
+  //     for (let index = 0; index < reportDetail.data.quarterlyReports.length; index++) {
+  //       const element = reportDetail.data.quarterlyReports[index];
+  //       var date = new Date(element.fiscalDateEnding)
+  //       var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
+  //       var obj1 = {
+  //         id: index,
+  //         date: lastDate,
+  //         // reportedcurrency: element.reportedCurrency,
+  //         grossProfit: element.grossProfit,
+  //         totalRevenue: element.totalRevenue,
+  //         costOfRevenue: element.costOfRevenue,
+  //         costofGoodsAndServicesSold: element.costofGoodsAndServicesSold,
+  //         operatingIncome: element.operatingIncome,
+  //         sellingGeneralAndAdministrative: element.sellingGeneralAndAdministrative,
+  //         researchAndDevelopment: element.researchAndDevelopment,
+  //         operatingExpenses: element.operatingExpenses,
+  //         //investmentIncomeNet :element.investmentIncomeNet,
+  //         netInterestIncome: element.netInterestIncome,
+  //         interestIncome: element.interestIncome,
+  //         interestExpense: element.interestExpense,
+  //         nonInterestIncome: element.nonInterestIncome,
+  //         otherNonOperatingIncome: element.otherNonOperatingIncome,
+  //         // depreciation :element.depreciation,
+  //         //depreciationAndAmortization :element.depreciationAndAmortization,
+  //         incomeBeforeTax: element.incomeBeforeTax,
+  //         incomeTaxExpense: element.incomeTaxExpense,
+  //         interestAndDebtExpense: element.interestAndDebtExpense,
+  //         netIncomeFromContinuingOperations: element.netIncomeFromContinuingOperations,
+  //         comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
+  //         // ebit :element.ebit,
+  //         // ebitda :element.ebitda,
+  //         netIncome: element.netIncome,
+  //         style: { position: 'relative' }
+  //       }
 
-        columnData.push(obj1);
+  //       columnData.push(obj1);
 
-      }
-      setRowData(columnData)
-      setData(reportDetail.data)
-    }
-    else {
-      toast.error('not reasult found')
-    }
-  }
+  //     }
+  //     setRowData(columnData)
+  //     setData(reportDetail.data)
+  //   }
+  //   else {
+  //     toast.error('not reasult found')
+  //   }
+  // }
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -259,18 +285,18 @@ const Pattern = (props) => {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
-  const followSymbol = async (send1) => {
+  const followSymbol = async (props) => {
     var body = {
-      "symbol": send1.symbol,
-      "fiscalDateEnding": send1.quarterlyReports[0].fiscalDateEnding
+      "symbol": props.reportdata.symbol,
+      "fiscalDateEnding": props.reportdata.quarterlyReports[0].fiscalDateEnding
     }
     var headers = {
       "Content-Type": "application/json",
-      "x-access-token": props.profile.token
+      "x-access-token": props.props.profile.token
     }
-    props.loaderRef(true)
+    props.props.loaderRef(true)
     var followDetail = await ApiServices.PostApiCall(ApiEndpoint.FOLLOW, JSON.stringify(body), headers)
-    props.loaderRef(false)
+    props.props.loaderRef(false)
     if (!!followDetail && followDetail.status == true) {
       setFollow(true)
       // console.log(followDetail)
@@ -280,34 +306,34 @@ const Pattern = (props) => {
   }
 
 
-  const chekFollow = async (symbol2) => {
+  const chekFollow = async (symbol) => {
     var body = {
-      "symbol": capitalizeFirstLetter(symbol2),
+      "symbol": capitalizeFirstLetter(symbol),
     }
     var headers = {
       "Content-Type": "application/json",
-      "x-access-token": props.profile.token
+      "x-access-token": props.props.profile.token
     }
-    props.loaderRef(true)
+    props.props.loaderRef(true)
     var followCheckDetail = await ApiServices.PostApiCall(ApiEndpoint.CHECK_FOLLOW, JSON.stringify(body), headers)
-    props.loaderRef(false)
+    props.props.loaderRef(false)
     if (!!followCheckDetail && !!followCheckDetail.status == true) {
       setFollow(true)
     }
   }
 
-  const unFollowSymbol = async (send) => {
+  const unFollowSymbol = async (props) => {
     var body = {
-      "symbol": send.symbol,
-      "fiscalDateEnding": send.quarterlyReports[0].fiscalDateEnding
+      "symbol": props.reportdata.symbol,
+      "fiscalDateEnding": props.reportdata.quarterlyReports[0].fiscalDateEnding
     }
     var headers = {
       "Content-Type": "application/json",
-      "x-access-token": props.profile.token
+      "x-access-token": props.props.profile.token
     }
-    props.loaderRef(true)
+    props.props.loaderRef(true)
     var followDetail = await ApiServices.PostApiCall(ApiEndpoint.UNFOLLOW, JSON.stringify(body), headers)
-    props.loaderRef(false)
+    props.props.loaderRef(false)
     if (!!followDetail && followDetail.status == true) {
       setFollow(false)
     }
@@ -320,8 +346,6 @@ const Pattern = (props) => {
 
   return (
     <>
-      <DashboardLayout>
-      </DashboardLayout>
       <Container sx={{height:'100vh'}}>
         <Box
           sx={{
@@ -340,7 +364,7 @@ const Pattern = (props) => {
             {data.symbol}
           </Typography>
           <Box sx={{ m: 1 }} >
-            {props.profile.token == undefined ?
+            {props.props.profile.token == undefined ?
               <Box sx={{flex:1}}>
                 <Typography>
                   Want to follow this stock, please 
@@ -355,7 +379,7 @@ const Pattern = (props) => {
                 color="primary"
                 type="submit"
                 onClick={() => {
-                  followSymbol(data)
+                  followSymbol(props)
                 }}
                 variant="contained"
               >
@@ -364,7 +388,7 @@ const Pattern = (props) => {
                 color="primary"
                 type="submit"
                 onClick={() => {
-                  unFollowSymbol(data)
+                  unFollowSymbol(props)
                 }}
                 variant="contained"
               >
@@ -389,7 +413,7 @@ const Pattern = (props) => {
             <Box sx={{ height: '80vh', width: '100%', mb: '50px' }}>
               <DataTable
                 columns={columns}
-                data={rowdata}
+                data={columnData}
                 fixedHeader
                 fixedHeaderScrollHeight="80vh"
                 customStyles={customStylesTable}
@@ -398,35 +422,11 @@ const Pattern = (props) => {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Box sx={{mb:50}}><Chart symbol={sym} /></Box>
+          <Box sx={{mb:50}}><Chart symbol={symbol} /></Box>
         </TabPanel>
       </Container>
-      <Box sx={{
-        color: 'inherit',
-        fontWeight: 600,
-        backgroundColor: 'rgb(255 255 255)',
-        borderTop: "1px solid #E7E7E7",
-        textAlign: "center",
-        padding: "10px",
-        // position: "fixed",
-        left: "0",
-        bottom: "0",
-        height: "40px",
-        width: "100%",
-      }}>
-        This is some content in sticky footer
-      </Box>
     </>
   );
 }
 
-
-const mapStateToProps = (state) => ({
-  profile: state.user.profile
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  save_user_data: (data) =>
-    dispatch({ type: Types.LOGIN, payload: data }),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Pattern));
+export default Report;

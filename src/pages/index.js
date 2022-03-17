@@ -17,6 +17,7 @@ import { DashboardLayout } from '../components/header-layout';
 import ApiServices from 'src/config/ApiServices';
 import { toast } from 'react-toastify';
 import ApiEndpoint from 'src/config/ApiEndpoint';
+import Report from './report';
 
 const Dashboard = (props) => {
 
@@ -24,6 +25,7 @@ const Dashboard = (props) => {
   const [profile, setProfile] = useState(props.profile);
   const [result, setResult] = useState(false)
   const [data, setData] = useState(false);
+  const [resultData, setResultData] = useState(false);
 
   const router = useRouter();
 
@@ -41,15 +43,13 @@ const Dashboard = (props) => {
     var reportDetail = await ApiServices.PostApiCall(ApiEndpoint.GET_REPORT, JSON.stringify(obj), headers)
     props.loaderRef(false)
     if (!!reportDetail && reportDetail.status == true) {
-      router.push({
-        pathname: '/report',
-        query: { data: entervalue },
-      });
+      setResult(false)
+      setData(reportDetail.data)
+      setResultData(true)
+
     }
     else {
-      router.push({
-        pathname: '/',
-      });
+      setResultData(false)
       setResult(true)
     }
   }
@@ -61,8 +61,8 @@ const Dashboard = (props) => {
   return (
     <>
       <Box {...props}>
-        <Box sx={{ width: '50%', m: 'auto' }}>
-          <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, mt: 30 }}>
+        <Box>
+          <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, mt: 4 ,width: '50%', m: 'auto' }}>
             <Box sx={{ flex: 1, flexDirection: 'row', display: 'flex' }}>
               <Box
                 sx={{
@@ -136,6 +136,8 @@ const Dashboard = (props) => {
               Result Not Found
             </Typography> : ''}
           </Box>
+          {resultData == true ? <Report reportdata={data} props = {props}
+          /> : ''}
         </Box>
       </Box>
       <Box sx={{
@@ -145,7 +147,7 @@ const Dashboard = (props) => {
         borderTop: "1px solid #E7E7E7",
         textAlign: "center",
         padding: "10px",
-        position: "fixed",
+        //position: "fixed",
         left: "0",
         bottom: "0",
         height: "40px",
