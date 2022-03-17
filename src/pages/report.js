@@ -113,7 +113,7 @@ const Report = (props) => {
   ];
   const [isfollow, setFollow] = useState(false);
 
-  const symbol = props.reportdata.symbol
+  const symbol = !!props.reportdata && !!!!props.reportdata.symbol ? props.reportdata.symbol : ''
 
   useEffect(() => {
     chekFollow(symbol)
@@ -131,43 +131,45 @@ const Report = (props) => {
 
   };
   var columnData = [];
-  for (let index = 0; index < props.reportdata.quarterlyReports.length; index++) {
-    const element = props.reportdata.quarterlyReports[index];
-    var date = new Date(element.fiscalDateEnding)
-    var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
-    var obj1 = {
-      id: index,
-      date: lastDate,
-      // reportedcurrency: element.reportedCurrency,
-      grossProfit: element.grossProfit,
-      totalRevenue: element.totalRevenue,
-      costOfRevenue: element.costOfRevenue,
-      costofGoodsAndServicesSold: element.costofGoodsAndServicesSold,
-      operatingIncome: element.operatingIncome,
-      sellingGeneralAndAdministrative: element.sellingGeneralAndAdministrative,
-      researchAndDevelopment: element.researchAndDevelopment,
-      operatingExpenses: element.operatingExpenses,
-      //investmentIncomeNet :element.investmentIncomeNet,
-      netInterestIncome: element.netInterestIncome,
-      interestIncome: element.interestIncome,
-      interestExpense: element.interestExpense,
-      nonInterestIncome: element.nonInterestIncome,
-      otherNonOperatingIncome: element.otherNonOperatingIncome,
-      // depreciation :element.depreciation,
-      //depreciationAndAmortization :element.depreciationAndAmortization,
-      incomeBeforeTax: element.incomeBeforeTax,
-      incomeTaxExpense: element.incomeTaxExpense,
-      interestAndDebtExpense: element.interestAndDebtExpense,
-      netIncomeFromContinuingOperations: element.netIncomeFromContinuingOperations,
-      comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
-      // ebit :element.ebit,
-      // ebitda :element.ebitda,
-      netIncome: element.netIncome,
-      style: { position: 'relative' }
+  if (!!props.reportdata && !!props.reportdata.quarterlyReports) {
+    for (let index = 0; index < props.reportdata.quarterlyReports.length; index++) {
+      const element = props.reportdata.quarterlyReports[index];
+      var date = new Date(element.fiscalDateEnding)
+      var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
+      var obj1 = {
+        id: index,
+        date: lastDate,
+        // reportedcurrency: element.reportedCurrency,
+        grossProfit: element.grossProfit,
+        totalRevenue: element.totalRevenue,
+        costOfRevenue: element.costOfRevenue,
+        costofGoodsAndServicesSold: element.costofGoodsAndServicesSold,
+        operatingIncome: element.operatingIncome,
+        sellingGeneralAndAdministrative: element.sellingGeneralAndAdministrative,
+        researchAndDevelopment: element.researchAndDevelopment,
+        operatingExpenses: element.operatingExpenses,
+        //investmentIncomeNet :element.investmentIncomeNet,
+        netInterestIncome: element.netInterestIncome,
+        interestIncome: element.interestIncome,
+        interestExpense: element.interestExpense,
+        nonInterestIncome: element.nonInterestIncome,
+        otherNonOperatingIncome: element.otherNonOperatingIncome,
+        // depreciation :element.depreciation,
+        //depreciationAndAmortization :element.depreciationAndAmortization,
+        incomeBeforeTax: element.incomeBeforeTax,
+        incomeTaxExpense: element.incomeTaxExpense,
+        interestAndDebtExpense: element.interestAndDebtExpense,
+        netIncomeFromContinuingOperations: element.netIncomeFromContinuingOperations,
+        comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
+        // ebit :element.ebit,
+        // ebitda :element.ebitda,
+        netIncome: element.netIncome,
+        style: { position: 'relative' }
+      }
+
+      columnData.push(obj1);
+
     }
-
-    columnData.push(obj1);
-
   }
   const capitalizeFirstLetter = (string) => {
     return string.toUpperCase();
@@ -282,7 +284,7 @@ const Report = (props) => {
             {symbol}
           </Typography>
           <Box sx={{ m: 1 }} >
-            {props.props.profile.token == undefined ?
+            {!props.props || props.props.profile.token == undefined ?
               <Box sx={{ flex: 1 }}>
                 <Typography>
                   Want to follow this stock, please
