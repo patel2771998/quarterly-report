@@ -62,7 +62,7 @@ const Dashboard = (props) => {
     <>
       <Box {...props}>
         <Box>
-          <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, mt: 4 ,width: '50%', m: 'auto' }}>
+          <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, mt: 4, width: '50%', m: 'auto' }}>
             <Box sx={{ flex: 1, flexDirection: 'row', display: 'flex' }}>
               <Box
                 sx={{
@@ -130,30 +130,15 @@ const Dashboard = (props) => {
           <Box sx={{
             alignItems: 'center',
             display: 'flex',
-            ml: '20%'
+            ml: '40%'
           }}>
             {result == true ? <Typography>
               Result Not Found
             </Typography> : ''}
           </Box>
-          {resultData == true ? <Report reportdata={data} props = {props}
+          {resultData == true ? <Report sx={{ height: '100vh' }} reportdata={data} props={props}
           /> : ''}
         </Box>
-      </Box>
-      <Box sx={{
-        color: 'inherit',
-        fontWeight: 600,
-        backgroundColor: 'rgb(255 255 255)',
-        borderTop: "1px solid #E7E7E7",
-        textAlign: "center",
-        padding: "10px",
-        //position: "fixed",
-        left: "0",
-        bottom: "0",
-        height: "40px",
-        width: "100%",
-      }}>
-        This is some content in sticky footer
       </Box>
     </>
   )

@@ -4,25 +4,12 @@ import {
   Box,
   Button,
   Container,
-  Touchable,
   Link,
-  Toolbar,
-  Card,
-  CardContent,
-  PerfectScrollbar,
-  TextField,
-  InputAdornment, TableCell,
-  TablePagination,
-  SvgIcon, Table, TableHead, TableBody, TableRow, Typography
+  Typography
 } from '@mui/material';
-import { useRouter, withRouter } from 'next/router';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import ApiServices from 'src/config/ApiServices';
 import ApiEndpoint from 'src/config/ApiEndpoint';
-import { DashboardLayout } from '../components/header-layout';
-import { toast } from 'react-toastify';
-import ReactTable from 'react-table';
-import { connect } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import 'react-table-hoc-fixed-columns/lib/styles.css' // important: this line must be placed after react-table css import
 import * as React from 'react';
@@ -33,7 +20,6 @@ import Chart from './Chart';
 
 const Report = (props) => {
 
-  const router = useRouter();
   const columns = [
     {
       name: 'Date',
@@ -125,13 +111,7 @@ const Report = (props) => {
       selector: row => row.netIncome,
     },
   ];
-
-  console.log(props.props)
-  
-  const [data, setData] = useState('');
   const [isfollow, setFollow] = useState(false);
-  const [rowdata, setRowData] = useState(0);
-  const [sym, setSym] = useState('')
 
   const symbol = props.reportdata.symbol
 
@@ -187,71 +167,11 @@ const Report = (props) => {
     }
 
     columnData.push(obj1);
- 
+
   }
   const capitalizeFirstLetter = (string) => {
     return string.toUpperCase();
   }
-
-  // const findReports = async (symbol1) => {
-  //   var obj = {
-  //     "symbol": capitalizeFirstLetter(symbol1)
-  //   }
-  //   var headers = {
-  //     "Content-Type": "application/json",
-  //   }
-  //   props.loaderRef(true)
-  //   var reportDetail = await ApiServices.PostApiCall(ApiEndpoint.GET_REPORT, JSON.stringify(obj), headers)
-  //   props.loaderRef(false)
-  //   //// console.log(reportDetail)
-  //   if (!!reportDetail && reportDetail.status == true) {
-  //     //// console.log(reportDetail.data.quarterlyReports.length)
-  //     var reportRowList = []
-  //     for (let index = 0; index < reportDetail.data.quarterlyReports.length; index++) {
-  //       const element = reportDetail.data.quarterlyReports[index];
-  //       var date = new Date(element.fiscalDateEnding)
-  //       var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
-  //       var obj1 = {
-  //         id: index,
-  //         date: lastDate,
-  //         // reportedcurrency: element.reportedCurrency,
-  //         grossProfit: element.grossProfit,
-  //         totalRevenue: element.totalRevenue,
-  //         costOfRevenue: element.costOfRevenue,
-  //         costofGoodsAndServicesSold: element.costofGoodsAndServicesSold,
-  //         operatingIncome: element.operatingIncome,
-  //         sellingGeneralAndAdministrative: element.sellingGeneralAndAdministrative,
-  //         researchAndDevelopment: element.researchAndDevelopment,
-  //         operatingExpenses: element.operatingExpenses,
-  //         //investmentIncomeNet :element.investmentIncomeNet,
-  //         netInterestIncome: element.netInterestIncome,
-  //         interestIncome: element.interestIncome,
-  //         interestExpense: element.interestExpense,
-  //         nonInterestIncome: element.nonInterestIncome,
-  //         otherNonOperatingIncome: element.otherNonOperatingIncome,
-  //         // depreciation :element.depreciation,
-  //         //depreciationAndAmortization :element.depreciationAndAmortization,
-  //         incomeBeforeTax: element.incomeBeforeTax,
-  //         incomeTaxExpense: element.incomeTaxExpense,
-  //         interestAndDebtExpense: element.interestAndDebtExpense,
-  //         netIncomeFromContinuingOperations: element.netIncomeFromContinuingOperations,
-  //         comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
-  //         // ebit :element.ebit,
-  //         // ebitda :element.ebitda,
-  //         netIncome: element.netIncome,
-  //         style: { position: 'relative' }
-  //       }
-
-  //       columnData.push(obj1);
-
-  //     }
-  //     setRowData(columnData)
-  //     setData(reportDetail.data)
-  //   }
-  //   else {
-  //     toast.error('not reasult found')
-  //   }
-  // }
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -299,8 +219,6 @@ const Report = (props) => {
     props.props.loaderRef(false)
     if (!!followDetail && followDetail.status == true) {
       setFollow(true)
-      // console.log(followDetail)
-      // console.log(isfollow)
     }
 
   }
@@ -346,7 +264,7 @@ const Report = (props) => {
 
   return (
     <>
-      <Container sx={{height:'100vh'}}>
+      <Container>
         <Box
           sx={{
             alignItems: 'center',
@@ -361,18 +279,18 @@ const Report = (props) => {
           <Typography
             variant="h4"
           >
-            {data.symbol}
+            {symbol}
           </Typography>
           <Box sx={{ m: 1 }} >
             {props.props.profile.token == undefined ?
-              <Box sx={{flex:1}}>
+              <Box sx={{ flex: 1 }}>
                 <Typography>
-                  Want to follow this stock, please 
+                  Want to follow this stock, please
                   <Link
-        href="/login"
-      >
-        Login
-      </Link>
+                    href="/login"
+                  >
+                    Login
+                  </Link>
                 </Typography>
               </Box> :
               isfollow == false ? <Button
@@ -422,7 +340,7 @@ const Report = (props) => {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Box sx={{mb:50}}><Chart symbol={symbol} /></Box>
+          <Box sx={{ mb: 50 }}><Chart symbol={symbol} /></Box>
         </TabPanel>
       </Container>
     </>
