@@ -288,7 +288,7 @@ const Report = (props) => {
               <Box sx={{ flex: 1 }}>
                 <Typography>
                   Want to follow this stock, please
-                  <Link
+                  <Link sx={{ ml: 1 }}
                     href="/login"
                   >
                     Login
