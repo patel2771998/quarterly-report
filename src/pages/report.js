@@ -1,5 +1,7 @@
 import Head from 'next/head';
 
+
+
 import {
   Box,
   Button,
@@ -16,7 +18,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Chart from './Chart';
+//import Chart from './Chart';
+import StockChart from './StockChart';
+import ChartStock from '../components/chart-stock';
+import Tradingview from './Tradingview';
+//import TradingViewWidget from 'react-tradingview-widget';
+import {Helmet} from "react-helmet";
+
+
 
 const Report = (props) => {
 
@@ -188,7 +197,7 @@ const Report = (props) => {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
+            <div>{children}</div>
           </Box>
         )}
       </div>
@@ -263,6 +272,36 @@ const Report = (props) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [chartType, setchartType] = React.useState(0);
+  const handleChartChange = (event, newValue) => {
+    console.log(event.target.value);
+    this.setState({ chartType: event.target.value });
+    setchartType(newValue);
+  };
+
+  
+  //   const widgetTradev= new TradingView.widget(
+  //   {
+  //   "autosize": true,
+  //   "symbol": "NASDAQ:AAPL",
+  //   "timezone": "Etc/UTC",
+  //   "theme": "light",
+  //   "style": "1",
+  //   "locale": "in",
+  //   "toolbar_bg": "#f1f3f6",
+  //   "enable_publishing": true,
+  //   "withdateranges": true,
+  //   "range": "ALL",
+  //   "hide_side_toolbar": false,
+  //   "allow_symbol_change": true,
+  //   "details": true,
+  //   "calendar": true,
+  //   "show_popup_button": true,
+  //   "popup_width": "1000",
+  //   "popup_height": "650",
+  //   "container_id": "tradingview_9ea05"
+  // });
+   
 
   return (
     <>
@@ -319,11 +358,12 @@ const Report = (props) => {
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Earning Report" {...a11yProps(0)} />
-            <Tab label="Chart" {...a11yProps(1)} />
+            <Tab label="Chart" {...a11yProps(0)} />
+            <Tab label="Earning Report" {...a11yProps(1)} />
+            <Tab label="StockChart" {...a11yProps(2)} />
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
+        <TabPanel value={value} index={1}>
           <Box
             component="main"
             sx={{
@@ -341,9 +381,17 @@ const Report = (props) => {
             </Box>
           </Box>
         </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Box sx={{ mb: 50 }}><Chart symbol={symbol} /></Box>
+        <TabPanel value={value} index={0}>
+          <Box sx={{ mb: 50 }}>
+            <div>
+              <Tradingview symbol="NASDAQ:AAPL"/>
+            </div>
+          </Box>
         </TabPanel>
+        <TabPanel value={value} index={2}>
+            <StockChart />
+        </TabPanel>
+        <StockChart symbol={symbol} />
       </Container>
     </>
   );
