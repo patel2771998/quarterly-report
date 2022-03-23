@@ -20,7 +20,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 // import StockChart from './StockChart';
 // import ChartStock from '../components/chart-stock';
-import Tradingview from './Tradingview';
+import Tradingview from './tradingview';
 //import TradingViewWidget from 'react-tradingview-widget';
 // import {Helmet} from "react-helmet";
 
