@@ -382,7 +382,7 @@ const Report = (props) => {
         <TabPanel value={value} index={0}>
           <Box sx={{ mb: 50 }}>
             <div>
-              <Tradingview symbol="NASDAQ:AAPL"/>
+              <Tradingview symbol={symbol}/>
             </div>
           </Box>
         </TabPanel>
