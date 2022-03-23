@@ -18,12 +18,11 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-//import Chart from './Chart';
-import StockChart from './StockChart';
-import ChartStock from '../components/chart-stock';
+// import StockChart from './StockChart';
+// import ChartStock from '../components/chart-stock';
 import Tradingview from './Tradingview';
 //import TradingViewWidget from 'react-tradingview-widget';
-import {Helmet} from "react-helmet";
+// import {Helmet} from "react-helmet";
 
 
 
@@ -360,7 +359,6 @@ const Report = (props) => {
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Chart" {...a11yProps(0)} />
             <Tab label="Earning Report" {...a11yProps(1)} />
-            <Tab label="StockChart" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={1}>
@@ -388,10 +386,6 @@ const Report = (props) => {
             </div>
           </Box>
         </TabPanel>
-        <TabPanel value={value} index={2}>
-            <StockChart />
-        </TabPanel>
-        <StockChart symbol={symbol} />
       </Container>
     </>
   );
