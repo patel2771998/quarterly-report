@@ -35,7 +35,7 @@ const Report = (props) => {
       width: '100px',
       style: {
         background: '#61dafb !important',
-        width: '16em',
+        width: '10em',
         left: '0',
         top: '6px',
         flexgrow: 'unset',
@@ -47,15 +47,18 @@ const Report = (props) => {
     },
     {
       name: 'Gloss Profit',
-      selector: row => row.grossProfit
+      selector: row => row.grossProfit,
+      width: '100px'
     },
     {
       name: 'Total Revenue',
       selector: row => row.totalRevenue,
+      width: '120px'
     },
     {
       name: 'Cost Of Revenue',
       selector: row => row.costOfRevenue,
+      width: '120px'
     },
     {
       name: 'Cost Of Goods And Services Sold',
@@ -80,6 +83,7 @@ const Report = (props) => {
     {
       name: 'Interest Income',
       selector: row => row.interestIncome,
+      width: '12em'
     },
     {
       name: 'Interest Expense',
@@ -108,7 +112,7 @@ const Report = (props) => {
     {
       name: 'Net Income From Continuing Operations',
       selector: row => row.netIncomeFromContinuingOperations,
-      width: '125px'
+      //width: '125px'
     },
     {
       name: 'Comprehensive Income Net Of Tax',
@@ -138,6 +142,30 @@ const Report = (props) => {
     },
 
   };
+  const numFormatter = (num) => {
+      let ignoreMinus = false;
+      var result = num;
+      if(num < 0){
+          num = Math.abs(num);
+          console.log(num);
+          ignoreMinus = true;
+      }
+
+      if(num > 999 && num < 1000000){
+        result =  (num/1000).toFixed(1) + 'K'; // convert to K for number from > 1000 < 1 million 
+      }else if(num > 1000000){
+        result =  (num/1000000).toFixed(1) + 'M'; // convert to M for number from > 1 million 
+      }else if(num < 900){
+        result =  num; // if value < 1000, nothing to do
+      }
+      console.log(result, "result");
+      if(ignoreMinus == true){
+          return "-"+result;
+      }else{
+          return result;
+      }
+  }
+
   var columnData = [];
   if (!!props.reportdata && !!props.reportdata.quarterlyReports) {
     for (let index = 0; index < props.reportdata.quarterlyReports.length; index++) {
@@ -148,30 +176,30 @@ const Report = (props) => {
         id: index,
         date: lastDate,
         // reportedcurrency: element.reportedCurrency,
-        grossProfit: element.grossProfit,
-        totalRevenue: element.totalRevenue,
-        costOfRevenue: element.costOfRevenue,
-        costofGoodsAndServicesSold: element.costofGoodsAndServicesSold,
-        operatingIncome: element.operatingIncome,
-        sellingGeneralAndAdministrative: element.sellingGeneralAndAdministrative,
-        researchAndDevelopment: element.researchAndDevelopment,
-        operatingExpenses: element.operatingExpenses,
+        grossProfit: numFormatter(element.grossProfit),
+        totalRevenue: numFormatter(element.totalRevenue),
+        costOfRevenue: numFormatter(element.costOfRevenue),
+        costofGoodsAndServicesSold: numFormatter(element.costofGoodsAndServicesSold),
+        operatingIncome: numFormatter(element.operatingIncome),
+        sellingGeneralAndAdministrative: numFormatter(element.sellingGeneralAndAdministrative),
+        researchAndDevelopment: numFormatter(element.researchAndDevelopment),
+        operatingExpenses: numFormatter(element.operatingExpenses),
         //investmentIncomeNet :element.investmentIncomeNet,
-        netInterestIncome: element.netInterestIncome,
-        interestIncome: element.interestIncome,
-        interestExpense: element.interestExpense,
-        nonInterestIncome: element.nonInterestIncome,
-        otherNonOperatingIncome: element.otherNonOperatingIncome,
+        netInterestIncome: numFormatter(element.netInterestIncome),
+        interestIncome: numFormatter(element.interestIncome),
+        interestExpense: numFormatter(element.interestExpense),
+        nonInterestIncome: numFormatter(element.nonInterestIncome),
+        otherNonOperatingIncome: numFormatter(element.otherNonOperatingIncome),
         // depreciation :element.depreciation,
         //depreciationAndAmortization :element.depreciationAndAmortization,
-        incomeBeforeTax: element.incomeBeforeTax,
-        incomeTaxExpense: element.incomeTaxExpense,
-        interestAndDebtExpense: element.interestAndDebtExpense,
-        netIncomeFromContinuingOperations: element.netIncomeFromContinuingOperations,
-        comprehensiveIncomeNetOfTax: element.comprehensiveIncomeNetOfTax,
+        incomeBeforeTax: numFormatter(element.incomeBeforeTax),
+        incomeTaxExpense: numFormatter(element.incomeTaxExpense),
+        interestAndDebtExpense: numFormatter(element.interestAndDebtExpense),
+        netIncomeFromContinuingOperations: numFormatter(element.netIncomeFromContinuingOperations),
+        comprehensiveIncomeNetOfTax: numFormatter(element.comprehensiveIncomeNetOfTax),
         // ebit :element.ebit,
         // ebitda :element.ebitda,
-        netIncome: element.netIncome,
+        netIncome: numFormatter(element.netIncome),
         style: { position: 'relative' }
       }
 
@@ -180,7 +208,10 @@ const Report = (props) => {
     }
   }
   const capitalizeFirstLetter = (string) => {
-    return string.toUpperCase();
+    if(string){
+      return string.toUpperCase();
+    }
+    return;
   }
 
   function TabPanel(props) {
@@ -380,7 +411,7 @@ const Report = (props) => {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={0}>
-          <Box sx={{ mb: 50 }}>
+          <Box sx={{ mb: 10 }}>
             <div>
               <Tradingview symbol={symbol}/>
             </div>

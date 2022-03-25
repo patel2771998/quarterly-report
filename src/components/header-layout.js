@@ -29,17 +29,19 @@ export const DashboardLayout = (props) => {
       <Box sx={{
         color: 'inherit',
         fontWeight: 600,
+        fontSize: "0.70em",
         backgroundColor: 'rgb(255 255 255)',
         borderTop: "1px solid #E7E7E7",
         textAlign: "center",
         //padding: "10px",
         position: "fixed",
         left: "0",
+        paddingTop: "10px",
         bottom: "0",
         height: "40px",
         width: "100%",
       }}>
-        This is some content in sticky footer
+        Design and Developed by @Think Info Services
       </Box>
     </>
   );
