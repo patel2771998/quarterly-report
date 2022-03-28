@@ -23,7 +23,8 @@ import Tab from '@mui/material/Tab';
 import Tradingview from './tradingview';
 //import TradingViewWidget from 'react-tradingview-widget';
 // import {Helmet} from "react-helmet";
-
+//import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+//import 'react-tabs/style/react-tabs.css';
 
 
 const Report = (props) => {
@@ -226,7 +227,7 @@ const Report = (props) => {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ pt: 2 }}>
             <div>{children}</div>
           </Box>
         )}
@@ -352,7 +353,11 @@ const Report = (props) => {
           >
             {symbol}
           </Typography>
-          <Box sx={{ m: 1 }} >
+          <Box sx={{ 
+            m: {
+              xs: 0,
+              sm: 1
+            } }} >
             {!props.props || props.props.profile.token == undefined ?
               <Box sx={{ flex: 1 }}>
                 <Typography>
@@ -385,8 +390,12 @@ const Report = (props) => {
               </Button>}
           </Box>
         </Box>
-
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                
+        <Box 
+        sx={{ borderBottom: 1, borderColor: 'divider',
+        pt: {
+          xs: 3
+        } }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Chart" {...a11yProps(0)} />
             <Tab label="Earning Report" {...a11yProps(1)} />
@@ -411,10 +420,8 @@ const Report = (props) => {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={0}>
-          <Box sx={{ mb: 10 }}>
-            <div>
+          <Box sx={{ mt: 10, width: "1200px", maxWidth: "100%", height: "600px", margin: 0 }}>
               <Tradingview symbol={symbol}/>
-            </div>
           </Box>
         </TabPanel>
       </Container>

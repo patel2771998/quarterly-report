@@ -55,26 +55,55 @@ const Dashboard = (props) => {
   }
   useEffect(() => {
     setProfile(props.profile)
-  }, [props.profile])
+  }, [props.profile]);
 
 
   return (
     <>
       <Box {...props}>
         <Box>
-          <Box sx={{ flexDirection: 'row', display: 'flex', flex: 1, mt: 4, width: '50%', m: 'auto' }}>
-            <Box sx={{ flex: 1, flexDirection: 'row', display: 'flex' }}>
+          <Box xs={{width: '100%',display: 'block' }} sx={{ flexDirection: 'row', 
+          display: {
+            xs: 'block',
+            sm: 'flex'
+          },
+          textAlign: {
+            xs: 'center',
+          },
+          width: {
+            xs: '100%',
+            sm: '80%',
+            md: "50%"
+          },
+          m: {
+            xs: '10px',
+            sm: 'auto'
+          } 
+          , mt: {
+            xs: 1,
+            sm: 4
+          } }} >
+            <Box sx={{ flex: 1, flexDirection: 'row', display: {
+            xs: 'block',
+            sm: 'flex'
+          },}}>
               <Box
                 sx={{
                   alignItems: 'center',
-                  display: 'flex',
+                  display: {
+                    xs : "block",
+                    sm: "flex"
+                  },
                   justifyContent: 'space-between',
                   flexWrap: 'wrap',
                   m: -1
                 }}
               >
                 <Typography
-                  sx={{ m: 1 }}
+                  sx={{ m: 5, fontSize: {
+                    xs: '1.5em',
+                    sm: '2em'
+                  } }}
                   variant="h4"
                 >
                   Ticker
@@ -86,10 +115,25 @@ const Dashboard = (props) => {
                   event.preventDefault();
                   return false;
                 }}>
-                  <CardContent>
-                    <Box sx={{
-                      width: 400
-                    }}>
+                  <CardContent 
+                    sx={{
+                      pt :{
+                        xs: 0, 
+                        sm: 4
+                      },
+                      pb :{
+                        xs: 0
+                      }
+                    }} >
+                    <Box 
+                    sx={{
+                      width: "100%",
+                      maxWidth: "100%",
+                      padding :{
+                        xs: 0
+                      }
+                    }} 
+                    sm={{width: "100%"}}>
                       <TextField
                         fullWidth
                         InputProps={{
@@ -113,7 +157,18 @@ const Dashboard = (props) => {
                   </CardContent>
                 </form>
               </Box>
-              <Box sx={{ flex: 1, mt: 5 }}>
+              <Box 
+              sx={{ 
+                mt: {
+                  xs : 0,
+                  sm: 5
+                } ,
+                pl: {
+                  xs: 2
+                }
+
+              }}
+              >
                 <Button
                   color="primary"
                   type="submit"
@@ -127,17 +182,23 @@ const Dashboard = (props) => {
               </Box>
             </Box>
           </Box>
+
           <Box sx={{
-            alignItems: 'center',
-            display: 'flex',
-            ml: '40%'
-          }}>
-            {result == true ? <Typography>
-              Result Not Found
-            </Typography> : ''}
+            minHeight: '67vh'
+            }}  >
+              <Box>
+                  <Box sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    ml: '40%',
+                  }}>
+                      {result == true ? <Typography>Result Not Found</Typography> : ''}
+                  </Box>
+                  {resultData == true ? <Report sx={{ height: '100vh' }} reportdata={data} props={props} /> : ''}
+              </Box>
+
           </Box>
-          {resultData == true ? <Report sx={{ height: '100vh' }} reportdata={data} props={props}
-          /> : ''}
+          
         </Box>
       </Box>
     </>

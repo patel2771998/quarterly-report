@@ -34,7 +34,7 @@ export const DashboardLayout = (props) => {
         borderTop: "1px solid #E7E7E7",
         textAlign: "center",
         //padding: "10px",
-        position: "fixed",
+        //position: "fixed",
         left: "0",
         paddingTop: "10px",
         bottom: "0",
