@@ -1,7 +1,13 @@
 import dynamic from 'next/dynamic';
 import React, { Component, useEffect } from 'react';
 import { useRouter } from 'next/router';
-
+import {
+    Box,
+    Button,
+    Container,
+    Link,
+    Typography
+  } from '@mui/material';
 
 
 
@@ -40,8 +46,8 @@ const Tradingview = (props) => {
     "GOOG"];
 
     return (
-
-        <TradingViewWidget
+        <Box sx={{ mt: 10, maxWidth: "100%", height: "600px", minHeight: "100vh", margin: 0 }}>
+            <TradingViewWidget
             symbol={props.symbol}
             //details
             //hide_side_toolbar={hide_side_toolbar}
@@ -94,6 +100,7 @@ const Tradingview = (props) => {
             // popup_width= "1000"
             // popup_height= "650"
         />
+        </Box>
 
     );
 
