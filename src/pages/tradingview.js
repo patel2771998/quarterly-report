@@ -46,7 +46,7 @@ const Tradingview = (props) => {
     "GOOG"];
 
     return (
-        <Box sx={{ mt: 10, maxWidth: "100%", height: "600px", minHeight: "100vh", margin: 0 }}>
+        <Box sx={{ mt: 10, maxWidth: "100%", height: "600px", minHeight: "80vh", margin: 0 }}>
             <TradingViewWidget
             symbol={props.symbol}
             //details
